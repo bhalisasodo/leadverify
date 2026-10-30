@@ -1,0 +1,36 @@
+{
+  "project": "LeadVerify Network",
+  "pack_version": "0.1",
+  "created": "2026-10-30",
+  "status": "Planning and MVP implementation specification",
+  "documents": [
+    "01_Strategy/01_Business_Model_and_Positioning.md",
+    "02_Product/01_Product_Requirements_Document.md",
+    "02_Product/02_Workflows_and_User_Stories.md",
+    "03_Technical/01_Architecture_and_Engineering_Guidance.md",
+    "03_Technical/02_Proposed_Data_Model.md",
+    "04_Operations_Commercial/01_Campaign_Operations_Playbook.md",
+    "04_Operations_Commercial/02_Commercial_and_Compensation_Framework.md",
+    "04_Operations_Commercial/03_Agent_Network_and_Verification.md",
+    "04_Operations_Commercial/04_Compliance_and_Risk_Checklist_South_Africa.md",
+    "05_Antigravity_Pack/ANTIGRAVITY_START_PROMPT.md",
+    "05_Antigravity_Pack/DEFINITION_OF_DONE.md",
+    "05_Antigravity_Pack/FOUNDER_DECISIONS_AND_OPEN_QUESTIONS.md",
+    "05_Antigravity_Pack/IMPLEMENTATION_PLAN.md",
+    "README.md"
+  ],
+  "confirmed_decisions": {
+    "initial_customer_segment": "Small businesses",
+    "initial_industry": "Technology",
+    "services": [
+      "Lead generation",
+      "Lead qualification",
+      "Appointment setting",
+      "Closing deals",
+      "Outbound sales"
+    ],
+    "agent_onboarding": "Open registration; verification and approval required before campaign access",
+    "business_interaction": "Managed by LeadVerify",
+    "long_term_ambition": "Distributed sales network"
+  }
+}
