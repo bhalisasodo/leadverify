@@ -1,24 +1,32 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          500: '#0284c7',
-          600: '#0369a1',
-          700: '#075985',
-          800: '#0c4a6e',
-          900: '#082f49',
-        },
+        verifyBlue: "#2B85E8",
+        leadSky: "#5DA9FF",
+        deepBlue: "#1D5FB8",
+        ink: "#0F2540",
+        slate: "#44546A",
+        mist: "#EEF5FF",
+        border: "#D5E3F5"
       },
-    },
+      borderRadius: {
+        card: "16px",
+        btn: "12px",
+        input: "10px",
+        photo: "20px"
+      },
+      fontFamily: {
+        poppins: ["Poppins", "Arial", "sans-serif"],
+        inter: ["Inter", "Arial", "sans-serif"]
+      }
+    }
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/forms")]
+};
