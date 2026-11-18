@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           Overview & Applications
         </Link>
 
-        <a
+        <Link
           href="/talent-network"
           target="_blank"
           rel="noopener noreferrer"
@@ -44,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           }}
         >
           Public Talent Portal ↗
-        </a>
+        </Link>
 
         <div style={{ marginTop: 'auto', borderTop: '1px solid #1F3656', paddingTop: 16, paddingLeft: 12, paddingRight: 12 }}>
           <div style={{ font: '600 13px Inter', color: '#fff' }}>Admin Reviewer</div>

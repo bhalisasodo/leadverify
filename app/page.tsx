@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 /* ─── SVG helpers ───────────────────────────────────────────────── */
 function LogoMark({ stroke = '#5DA9FF', checkStroke = '#2B85E8' }: { stroke?: string; checkStroke?: string }) {
@@ -49,7 +50,7 @@ export default function HomePage() {
             <a href="#process"  style={{ color: '#44546A', textDecoration: 'none' }}>How we work</a>
             <a href="#team"     style={{ color: '#44546A', textDecoration: 'none' }}>Team</a>
             <a href="#work"     style={{ color: '#44546A', textDecoration: 'none' }}>Our work</a>
-            <a href="/talent-network" style={{ color: '#44546A', textDecoration: 'none' }}>Talent Network</a>
+            <Link href="/talent-network" style={{ color: '#44546A', textDecoration: 'none' }}>Talent Network</Link>
             <a href="#contact" style={btnPrimary}>Book a discovery call</a>
           </nav>
         </div>
@@ -280,8 +281,8 @@ export default function HomePage() {
             {[
               {
                 name: 'Mabotse Kekana',
-                role: 'Founder and CEO',
-                bio: 'Leads strategy, client relationships and sales. Hands-on in prospect research, decision-maker identification, outreach and appointment setting.',
+                role: 'Founder & Chief Executive Officer (CEO)',
+                bio: "Leads LeadVerify's overall business strategy, vision and execution. Drives strategic partnerships, client relationships and organisational development, ensuring the business delivers sustainable growth and long-term value.",
                 photo: '/photos/team/mabotse_kekana.jpg',
                 objectPosition: '50% 20%',
               },

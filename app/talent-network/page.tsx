@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 /* ─── SVG helpers ────────────────────────────────────────────────────────── */
 function LogoMark({ stroke = '#5DA9FF', checkStroke = '#2B85E8' }: { stroke?: string; checkStroke?: string }) {
@@ -92,20 +93,20 @@ export default function TalentNetworkPage() {
       {/* ── HEADER ──────────────────────────────────────────────────────── */}
       <header style={{ background: '#fff', borderBottom: '1px solid #E1ECFA' }}>
         <div style={{ ...inner, display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 76, gap: 16, flexWrap: 'wrap' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <LogoMark />
             <span style={{ font: '700 24px/1 Poppins,sans-serif', letterSpacing: '-0.02em' }}>
               <span style={{ color: '#2B85E8' }}>Lead</span><span style={{ color: '#5DA9FF' }}>Verify</span>
             </span>
-          </a>
+          </Link>
           <nav style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap', font: '500 15px Inter' }}>
-            <a href="/"          style={{ color: '#44546A', textDecoration: 'none' }}>Home</a>
-            <a href="/#services" style={{ color: '#44546A', textDecoration: 'none' }}>Services</a>
-            <a href="/#process"  style={{ color: '#44546A', textDecoration: 'none' }}>How We Work</a>
-            <a href="/#team"     style={{ color: '#44546A', textDecoration: 'none' }}>Team</a>
-            <a href="/#work"     style={{ color: '#44546A', textDecoration: 'none' }}>Our Work</a>
-            <a href="/talent-network" style={{ color: '#1D5FB8', textDecoration: 'none', fontWeight: 600 }}>Talent Network</a>
-            <a href="/#contact"  style={btnOutline}>Book a Discovery Call</a>
+            <Link href="/"          style={{ color: '#44546A', textDecoration: 'none' }}>Home</Link>
+            <Link href="/#services" style={{ color: '#44546A', textDecoration: 'none' }}>Services</Link>
+            <Link href="/#process"  style={{ color: '#44546A', textDecoration: 'none' }}>How We Work</Link>
+            <Link href="/#team"     style={{ color: '#44546A', textDecoration: 'none' }}>Team</Link>
+            <Link href="/#work"     style={{ color: '#44546A', textDecoration: 'none' }}>Our Work</Link>
+            <Link href="/talent-network" style={{ color: '#1D5FB8', textDecoration: 'none', fontWeight: 600 }}>Talent Network</Link>
+            <Link href="/#contact"  style={btnOutline}>Book a Discovery Call</Link>
           </nav>
         </div>
       </header>
@@ -332,7 +333,7 @@ export default function TalentNetworkPage() {
           <p style={{ margin: 0, font: '400 18px/1.6 Inter', color: '#E6F0FF' }}>
             It takes a few minutes. You can pause and come back.
           </p>
-          <a
+          <Link
             href="/talent-network/apply"
             style={{
               display: 'inline-flex', alignItems: 'center', minHeight: 52,
@@ -341,7 +342,7 @@ export default function TalentNetworkPage() {
             }}
           >
             Register for free
-          </a>
+          </Link>
         </div>
       </section>
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -231,12 +232,12 @@ export default function TalentApplyPage() {
     <div style={{ background: '#fff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
       {/* Top bar */}
       <header style={{ background: '#fff', borderBottom: '1px solid #E1ECFA', padding: '0 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 64 }}>
-        <a href="/talent-network" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+        <Link href="/talent-network" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <LogoMark />
           <span style={{ font: '700 22px/1 Poppins,sans-serif', letterSpacing: '-0.02em' }}>
             <span style={{ color: '#2B85E8' }}>Lead</span><span style={{ color: '#5DA9FF' }}>Verify</span>
           </span>
-        </a>
+        </Link>
         <div style={{ font: '500 13px Inter', color: '#44546A' }}>Talent Network Registration</div>
       </header>
 
