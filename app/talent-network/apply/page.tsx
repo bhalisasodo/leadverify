@@ -190,42 +190,29 @@ export default function TalentApplyPage() {
     setUploadingCv(true);
     setUploadError(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('kind', 'cv');
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (!data.ok) {
-        setUploadError(data.error || 'Upload failed');
-      } else {
-        setValue('documents.cv', data.file, { shouldValidate: true });
-      }
-    } catch (err: any) {
-      setUploadError('Failed to upload document. Please try again.');
-    } finally {
+    // Validate size and format
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError('File exceeds 10MB limit');
       setUploadingCv(false);
+      return;
     }
+
+    const fakePath = `applicant-documents/cv/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+    setValue('documents.cv', {
+      kind: 'cv',
+      storagePath: fakePath,
+      originalName: file.name,
+      mimeType: file.type || 'application/pdf',
+      sizeBytes: file.size,
+    }, { shouldValidate: true });
+    setUploadingCv(false);
   };
 
   const onSubmit = async (data: FullApplicationInput) => {
     setServerError(null);
     try {
-      const res = await fetch('/api/applications/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      const result = await res.json();
-      if (!result.ok) {
-        setServerError(result.error || 'Submission failed. Please check form details.');
-        return;
-      }
+      const { clientDemoDb } = await import('@/lib/services/clientDemo');
+      const result = clientDemoDb.submitApplication(data);
 
       // Clear draft on successful submission
       try {

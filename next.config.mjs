@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+
 const nextConfig = {
+  output: 'export',
+  basePath: isGithubActions ? '/leadverify' : '',
   images: {
-    // Local /public images are served by Next.js directly; no remote patterns needed.
-    unoptimized: false,
+    unoptimized: true,
   },
 };
 

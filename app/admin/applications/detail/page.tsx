@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { clientDemoDb } from '@/lib/services/clientDemo';
 import type { FullApplicationRecord, ApplicationStatus, VerificationType, VerificationStatus } from '@/lib/types/talent';
 
 const VERIFICATION_TYPES: VerificationType[] = [
@@ -14,13 +15,12 @@ const VERIFICATION_TYPES: VerificationType[] = [
   'performance',
 ];
 
-export default function ApplicationDetailPage() {
-  const params = useParams();
-  const id = params?.id as string;
+function ApplicationDetailContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') || '00000000-0000-0000-0000-000000000001';
 
   const [record, setRecord] = useState<FullApplicationRecord | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Status Change State
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus>('under_review');
@@ -35,27 +35,20 @@ export default function ApplicationDetailPage() {
   const [savingVerification, setSavingVerification] = useState(false);
 
   const fetchRecord = useCallback(() => {
-    if (!id) return;
     setLoading(true);
-    fetch(`/api/admin/applications/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.ok) {
-          setError(res.error || 'Failed to fetch application');
-        } else {
-          setRecord(res.application);
-          setSelectedStatus(res.application.applicant.status);
-        }
-      })
-      .catch(() => setError('Network error fetching application'))
-      .finally(() => setLoading(false));
+    const app = clientDemoDb.getApplicationById(id);
+    if (app) {
+      setRecord(app);
+      setSelectedStatus(app.applicant.status);
+    }
+    setLoading(false);
   }, [id]);
 
   useEffect(() => {
     fetchRecord();
   }, [fetchRecord]);
 
-  const handleStatusUpdate = async (e: React.FormEvent) => {
+  const handleStatusUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!statusNote.trim()) {
       alert('A note is required for all status transitions to maintain audit trail.');
@@ -63,33 +56,15 @@ export default function ApplicationDetailPage() {
     }
 
     setUpdatingStatus(true);
-    try {
-      const res = await fetch(`/api/admin/applications/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'update_status',
-          status: selectedStatus,
-          note: statusNote,
-          changedBy: 'Admin Reviewer',
-        }),
-      });
-
-      const data = await res.json();
-      if (!data.ok) {
-        alert(data.error || 'Failed to update status');
-      } else {
-        setStatusNote('');
-        fetchRecord();
-      }
-    } catch (e) {
-      alert('Network error updating status');
-    } finally {
-      setUpdatingStatus(false);
+    const ok = clientDemoDb.updateStatus(id, selectedStatus, statusNote);
+    if (ok) {
+      setStatusNote('');
+      fetchRecord();
     }
+    setUpdatingStatus(false);
   };
 
-  const handleRecordVerification = async (e: React.FormEvent) => {
+  const handleRecordVerification = (e: React.FormEvent) => {
     e.preventDefault();
     if (verStatus === 'verified' && !verEvidence.trim()) {
       alert('Verification Principle: Self-reported data is never verified without an evidence reference.');
@@ -97,40 +72,20 @@ export default function ApplicationDetailPage() {
     }
 
     setSavingVerification(true);
-    try {
-      const res = await fetch(`/api/admin/applications/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'record_verification',
-          type: verType,
-          status: verStatus,
-          evidenceReference: verEvidence,
-          notes: verNotes,
-          reviewerId: 'Admin Reviewer',
-        }),
-      });
-
-      const data = await res.json();
-      if (!data.ok) {
-        alert(data.error || 'Failed to record verification');
-      } else {
-        setVerEvidence('');
-        setVerNotes('');
-        fetchRecord();
-      }
-    } catch (e) {
-      alert('Network error saving verification');
-    } finally {
-      setSavingVerification(false);
+    const ok = clientDemoDb.recordVerification(id, verType, verStatus, verEvidence, verNotes);
+    if (ok) {
+      setVerEvidence('');
+      setVerNotes('');
+      fetchRecord();
     }
+    setSavingVerification(false);
   };
 
   if (loading) {
     return <div style={{ padding: 40, textAlign: 'center', font: '500 15px Inter' }}>Loading application details...</div>;
   }
 
-  if (error || !record) {
+  if (!record) {
     return (
       <div style={{ padding: 40, textAlign: 'center' }}>
         <h2 style={{ color: '#E53E3E' }}>Application Not Found</h2>
@@ -141,7 +96,7 @@ export default function ApplicationDetailPage() {
     );
   }
 
-  const { applicant, profile, preferences, documents, verifications, consents, history } = record;
+  const { applicant, profile, preferences, documents, verifications, history } = record;
 
   return (
     <div style={{ padding: '32px 36px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1200 }}>
@@ -268,7 +223,7 @@ export default function ApplicationDetailPage() {
             </div>
           </div>
 
-          {/* Section 5: Documents (Private storage viewer) */}
+          {/* Section 5: Documents */}
           <div style={{ background: '#fff', border: '1px solid #D5E3F5', borderRadius: 12, padding: 24 }}>
             <h2 style={{ margin: '0 0 16px', font: '600 16px Poppins', color: '#0F2540' }}>Submitted Documents (Private ACL)</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -443,5 +398,13 @@ export default function ApplicationDetailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ApplicationDetailPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 40, textAlign: 'center', font: '500 15px Inter' }}>Loading application details...</div>}>
+      <ApplicationDetailContent />
+    </Suspense>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { clientDemoDb } from '@/lib/services/clientDemo';
 
 interface Metrics {
   totalRegistrations: number;
@@ -39,28 +40,24 @@ export default function AdminOverviewPage() {
 
   const loadData = useCallback(() => {
     setLoading(true);
-    const query = new URLSearchParams();
-    if (search) query.set('search', search);
-    if (statusFilter !== 'all') query.set('status', statusFilter);
-    if (provinceFilter !== 'all') query.set('province', provinceFilter);
-
-    Promise.all([
-      fetch('/api/admin/overview').then((r) => r.json()),
-      fetch(`/api/admin/applications?${query.toString()}`).then((r) => r.json()),
-    ])
-      .then(([mRes, aRes]) => {
-        if (mRes.ok) setMetrics(mRes.metrics);
-        if (aRes.ok) setApplications(aRes.applications);
-      })
-      .catch((err) => console.error('Admin fetch error:', err))
-      .finally(() => setLoading(false));
+    try {
+      const m = clientDemoDb.getOverviewMetrics();
+      const list = clientDemoDb.listApplications({
+        search,
+        status: statusFilter,
+        province: provinceFilter,
+      });
+      setMetrics(m);
+      setApplications(list);
+    } catch (err) {
+      console.error('Admin fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
   }, [search, statusFilter, provinceFilter]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      loadData();
-    }, 200);
-    return () => clearTimeout(timer);
+    loadData();
   }, [loadData]);
 
   return (
@@ -220,7 +217,7 @@ export default function AdminOverviewPage() {
                   </td>
                   <td style={{ padding: '14px 16px', textAlign: 'right' }}>
                     <Link
-                      href={`/admin/applications/${rec.applicant.id}`}
+                      href={`/admin/applications/detail?id=${rec.applicant.id}`}
                       style={{
                         padding: '6px 14px', borderRadius: 8, background: '#1D5FB8', color: '#fff',
                         textDecoration: 'none', font: '600 13px Inter', display: 'inline-block',

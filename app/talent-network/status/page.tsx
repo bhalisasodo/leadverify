@@ -26,23 +26,15 @@ function StatusContent() {
   const [withdrawnNotice, setWithdrawnNotice] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      setError('No status access token provided in URL.');
+    import('@/lib/services/clientDemo').then(({ clientDemoDb }) => {
+      const app = clientDemoDb.getApplicationByToken(token);
+      if (app) {
+        setData(app);
+      } else {
+        setError('No active application found matching this token.');
+      }
       setLoading(false);
-      return;
-    }
-
-    fetch(`/api/applications/status?token=${encodeURIComponent(token)}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.ok) {
-          setError(res.error || 'Failed to retrieve application status');
-        } else {
-          setData(res);
-        }
-      })
-      .catch(() => setError('Network error fetching status.'))
-      .finally(() => setLoading(false));
+    });
   }, [token]);
 
   const handleWithdraw = async () => {
@@ -51,29 +43,18 @@ function StatusContent() {
     }
 
     setWithdrawing(true);
-    try {
-      const res = await fetch('/api/applications/withdraw', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
-      });
-      const result = await res.json();
-      if (result.ok) {
-        setWithdrawnNotice(true);
-        if (data?.applicant) {
-          setData({
-            ...data,
-            applicant: { ...data.applicant, status: 'withdrawn' },
-          });
-        }
-      } else {
-        alert(result.error || 'Failed to withdraw application');
+    const { clientDemoDb } = await import('@/lib/services/clientDemo');
+    const ok = clientDemoDb.withdrawApplication(token);
+    if (ok) {
+      setWithdrawnNotice(true);
+      if (data?.applicant) {
+        setData({
+          ...data,
+          applicant: { ...data.applicant, status: 'withdrawn' },
+        });
       }
-    } catch (e) {
-      alert('Network error while withdrawing');
-    } finally {
-      setWithdrawing(false);
     }
+    setWithdrawing(false);
   };
 
   if (loading) {
