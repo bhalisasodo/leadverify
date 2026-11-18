@@ -348,8 +348,9 @@ export default function TalentNetworkPage() {
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
       <footer style={{ background: '#0F2540', padding: '32px 0' }}>
         <div style={{ ...inner, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-          <div style={{ font: '400 14px Inter', color: '#B7CBE6' }}>
-            LeadVerify · Your outsourced sales intelligence partner.
+          <div style={{ font: '400 14px/1.6 Inter', color: '#B7CBE6' }}>
+            LeadVerify (Pty) Ltd · Registration No: 2026/895558/07<br />
+            Your outsourced sales intelligence partner.
           </div>
           <div style={{ font: '400 14px Inter', color: '#B7CBE6', display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             <a href="/privacy" style={{ color: '#B7CBE6' }}>Privacy notice</a>

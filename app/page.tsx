@@ -372,7 +372,8 @@ export default function HomePage() {
               <span style={{ color: '#fff' }}>Lead</span><span style={{ color: '#CFE3FF' }}>Verify</span>
             </span>
           </div>
-          <div style={{ font: '400 14px Inter', color: '#B7CBE6' }}>
+          <div style={{ font: '400 14px/1.6 Inter', color: '#B7CBE6' }}>
+            LeadVerify (Pty) Ltd · Registration No: 2026/895558/07<br />
             Your outsourced sales intelligence partner. South Africa.<br />
             info@leadverify.co.za · +27 73 416 6079
           </div>
