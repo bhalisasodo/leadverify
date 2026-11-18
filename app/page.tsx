@@ -278,18 +278,37 @@ export default function HomePage() {
           <h2 style={{ margin: '10px 0 0', font: '700 40px/1.15 Poppins', color: '#0F2540', letterSpacing: '-0.01em', maxWidth: 720 }}>We have done the work ourselves.</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 20, marginTop: 40 }}>
             {[
-              { name: 'Mabotse Kekana',  role: 'Founder and CEO',                       bio: 'Leads strategy, client relationships and sales. Hands-on in prospect research, decision-maker identification, outreach and appointment setting.' },
-              { name: 'Zinande Lunika',  role: 'Co-Founder and Head of Sales',           bio: 'Leads sales execution, prospect engagement and relationship development, turning strategy into daily activity.' },
-              { name: 'Bhalisa Sodo',    role: 'Data, Market Intelligence and Growth',   bio: 'Brings a data-driven approach to market research, using analytics and segmentation to sharpen targeting.' },
-            ].map(({ name, role, bio }) => (
+              {
+                name: 'Mabotse Kekana',
+                role: 'Founder and CEO',
+                bio: 'Leads strategy, client relationships and sales. Hands-on in prospect research, decision-maker identification, outreach and appointment setting.',
+                photo: '/photos/team/mabotse_kekana.jpg',
+                objectPosition: '50% 20%',
+              },
+              {
+                name: 'Zinande Lunika',
+                role: 'Co-founder & Chief Revenue Officer (CRO)',
+                bio: 'Leads revenue strategy and commercial execution, driving sales performance, client acquisition, relationship development and revenue growth. Turns commercial opportunities into measurable business results.',
+                photo: '/photos/team/zinande_lunika.jpg',
+                objectPosition: '50% 20%',
+              },
+              {
+                name: 'Bhalisa Sodo',
+                role: 'Co-founder & Chief Growth Officer (CGO)',
+                bio: "Leads growth strategy, market intelligence and business expansion. Uses data-driven research, market positioning and strategic initiatives to identify opportunities, sharpen targeting and accelerate LeadVerify's growth.",
+                photo: '/photos/team/bhalisa_sodo.jpg',
+                objectPosition: '50% 5%',
+              },
+            ].map(({ name, role, bio, photo, objectPosition }) => (
               <div key={name} style={{ background: '#fff', border: '1px solid #D5E3F5', borderRadius: 16, padding: 28, display: 'flex', flexDirection: 'column', gap: 10, font: '400 15px/1.6 Inter' }}>
-                {/* Photo placeholder */}
-                <div
-                  role="img"
-                  aria-label={`Photo placeholder: Portrait of ${name}, head and shoulders, soft daylight`}
-                  style={{ aspectRatio: '1/1', width: '100%', background: 'repeating-linear-gradient(135deg,#E3EEFC,#E3EEFC 14px,#EEF5FF 14px,#EEF5FF 28px)', border: '2px dashed #5DA9FF', borderRadius: 20, display: 'flex', alignItems: 'flex-end', padding: 16, boxSizing: 'border-box', font: '500 13px/1.4 Inter', color: '#0F2540' }}
-                >
-                  <span style={{ background: '#fff', borderRadius: 8, padding: '8px 12px' }}>Photo: Portrait of {name}, head and shoulders, soft daylight</span>
+                <div style={{ width: '100%', aspectRatio: '1/1', borderRadius: 20, overflow: 'hidden', background: '#EEF5FF' }}>
+                  <Image
+                    src={photo}
+                    alt={`Portrait of ${name}, ${role}`}
+                    width={400}
+                    height={400}
+                    style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover', objectPosition }}
+                  />
                 </div>
                 <h3 style={{ margin: '6px 0 0', font: '600 20px Poppins', color: '#0F2540' }}>{name}</h3>
                 <div style={{ font: '600 14px Poppins', color: '#1D5FB8' }}>{role}</div>
